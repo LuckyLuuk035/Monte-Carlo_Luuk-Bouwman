@@ -10,5 +10,4 @@ class Wedstrijd:
         self.verlies = kansen[2]
 
     def speelWedstrijd(self, seed):
-        rng = MidSquareGen(seed)
-        return rng.next()
+        print(self.thuis, self.uit, seed)
