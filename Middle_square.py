@@ -20,5 +20,3 @@ class MidSquareGen(object):  # Algemene opzet voor een RNG object: init, en next
                 number = int(str(number)[:-1])
                 left = True
         return number
-
-

@@ -1,4 +1,5 @@
 from Middle_square import MidSquareGen
+from Voetbal_club import VoetbalClub
 
 rng = MidSquareGen(12345)
 
@@ -9,4 +10,13 @@ rng.reset(12345)
 a = rng.next()
 rng.reset(12345)
 b = rng.next()
+
+print(a)
 print(a == b)  # Deze moeten gelijk zijn
+
+
+Ajax = VoetbalClub("Ajax")
+Feyenoord = VoetbalClub("Feyenoord")
+PSV = VoetbalClub("PSV")
+FC_Utrecht = VoetbalClub("FC Utrecht")
+Willem_II = VoetbalClub("Willem II")
