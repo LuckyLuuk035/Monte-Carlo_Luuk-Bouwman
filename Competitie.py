@@ -1,3 +1,4 @@
+from Linear_congruential_generator import LinearCongruentialGenerator
 from Middle_square_generator import MidSquareGen
 
 from Voetbal_club import VoetbalClub
@@ -12,7 +13,8 @@ class Competitie:
 
         Eerst worden de teams en rng aangemaakt, waarna de wedstrijden worden aangemaakt.
         """
-        self.rng = MidSquareGen(seed)
+        self.rng = LinearCongruentialGenerator(seed)
+        # self.rng = MidSquareGen(seed)
 
         self.Ajax = VoetbalClub("Ajax")
         self.Feyenoord = VoetbalClub("Feyenoord")
