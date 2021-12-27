@@ -1,8 +1,0 @@
-must:
-Voeg de punten toe aan de score van de teams
-Bepaal de uitkomt van de competie.
-Maak hier een batchrunner voor.
-krijg een tabel met de juiste resultaten.
-
-should:
-printstatements weg werken bij 'speelWedstrijd'
