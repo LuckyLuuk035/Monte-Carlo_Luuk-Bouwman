@@ -6,4 +6,4 @@ seed = 12345
 
 simulatie = MonteCarloSimulatie(seed)
 
-simulatie.runSimulatie(2)
+print(simulatie.runSimulatie(2000))
