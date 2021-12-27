@@ -3,6 +3,7 @@ from Middle_square import MidSquareGen
 from Voetbal_club import VoetbalClub
 from Wedstrijd import Wedstrijd
 
+
 class Competitie:
     def __init__(self, seed):
         self.rng = MidSquareGen(seed)
@@ -15,6 +16,8 @@ class Competitie:
         self.teams = [self.Ajax, self.Feyenoord, self.PSV, self.FC_Utrecht, self.Willem_II]
 
         self.wedstrijden = self.setupWedstrijden()
+
+        self.printStanding = False
 
     def setupWedstrijden(self):
         w00 = Wedstrijd(self.Ajax, self.Feyenoord, [65, 17, 18])
@@ -51,14 +54,20 @@ class Competitie:
         for wedstrijd in self.wedstrijden:
             random = self.rng.next()
             wedstrijd.speelWedstrijd(random)
-        self.berekenUitkomst()
+        result = self.berekenUitkomst()
+        self.resetCompetitie()
+        return result
+
+    def resetCompetitie(self):
+        for team in self.teams:
+            team.punten = 0
 
     def berekenUitkomst(self):
         uitkomst = [[self.Ajax]]
         for team in self.teams:
             for index, plaats in enumerate(uitkomst):
                 if team.punten > plaats[0].punten:
-                    uitkomst = uitkomst[0:index-1] + [team] + uitkomst[index-1:]
+                    uitkomst = uitkomst[0:index - 1] + [[team]] + uitkomst[index - 1:]
                     break
                 elif team.punten == plaats[0].punten:
                     # alleen voor Ajax en check tegen duplicates.
@@ -69,16 +78,22 @@ class Competitie:
                 elif uitkomst[-1] == plaats:
                     uitkomst.append([team])
                     break
-            self.printUitkomst(uitkomst)
+        return self.getUitkomst(uitkomst)
 
-    def printUitkomst(self, uitkomst):
+    def getUitkomst(self, uitkomst):
         plaats = 1
+        resultaat = {}
         for teams in uitkomst:
             if len(teams) != 1:
                 for team in teams:
-                    print("In " + str(plaats) + "e plaats: " + team.naam + " met " + str(team.punten) + " punten")
+                    resultaat[team.naam] = plaats
+                    if self.printStanding:
+                        print("In " + str(plaats) + "e plaats: " + team.naam + " met " + str(team.punten) + " punten")
                 plaats += len(teams)
             else:
-                print("In " + str(plaats) + "e plaats: " + teams[0].naam + " met " + str(teams[0].punten) + " punten")
+                resultaat[teams[0].naam] = plaats
+                if self.printStanding:
+                    print(
+                        "In " + str(plaats) + "e plaats: " + teams[0].naam + " met " + str(teams[0].punten) + " punten")
                 plaats += 1
-        print("")
+        return resultaat

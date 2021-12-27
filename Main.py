@@ -1,17 +1,9 @@
 from Middle_square import MidSquareGen
 
-from Competitie import Competitie
+from Monte_Carlo_simulatie import MonteCarloSimulatie
 
 seed = 12345
-rng = MidSquareGen(seed)
 
-print([rng.next() for _ in range(20)])
+simulatie = MonteCarloSimulatie(seed)
 
-# Neem tweemaal een random getal met steeds dezelfde seed
-rng.reset(12345)
-
-# -----------------------------------------------------------
-
-c = Competitie(seed)
-
-c.speelCompetitie()
+simulatie.runSimulatie(10)
