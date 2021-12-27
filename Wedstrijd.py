@@ -1,6 +1,3 @@
-from Middle_square import MidSquareGen
-
-
 class Wedstrijd:
     def __init__(self, thuis, uit, kansen):
         self.thuis = thuis
