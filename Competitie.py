@@ -6,6 +6,12 @@ from Wedstrijd import Wedstrijd
 
 class Competitie:
     def __init__(self, seed):
+        """
+        Competitie is een clas waar de competie mee wordt "gespeeld" of gesimuleerd.
+        :param seed: de seed voor de Random Number Generator
+
+        Eerst worden de teams en rng aangemaakt, waarna de wedstrijden worden aangemaakt.
+        """
         self.rng = MidSquareGen(seed)
 
         self.Ajax = VoetbalClub("Ajax")
@@ -20,6 +26,10 @@ class Competitie:
         self.printStanding = False
 
     def setupWedstrijden(self):
+        """
+        setupWedstrijden maakt alle wedstrijden aan.
+        :return: een lijst van alle wedstrijden.
+        """
         w00 = Wedstrijd(self.Ajax, self.Feyenoord, [65, 17, 18])
         w01 = Wedstrijd(self.Ajax, self.PSV, [54, 21, 25])
         w02 = Wedstrijd(self.Ajax, self.FC_Utrecht, [74, 14, 12])
@@ -51,46 +61,68 @@ class Competitie:
                 w40, w41, w42, w43]
 
     def speelCompetitie(self):
+        """
+        speelCompetitie speelt alle wedstrijden van de competitie.
+        :return: geeft de uitkomst van de competitie terug.
+        """
         for wedstrijd in self.wedstrijden:
             random = self.rng.next()
-            wedstrijd.speelWedstrijd(random)
-        result = self.berekenUitkomst()
+            wedstrijd.speelWedstrijd(random)  # speel de wedstrijd met de nieuwe gegenereerde waarde.
+        uitkomst = self.berekenUitkomst()
         self.resetCompetitie()
-        return result
+        return uitkomst
 
     def resetCompetitie(self):
+        """
+        resetCompetitie zet alle teams weer op 0 punten.
+        """
         for team in self.teams:
             team.punten = 0
 
     def berekenUitkomst(self):
+        """
+        berekenUitkomst berekent de uitkomst en volgorde van competitie.
+        """
         uitkomst = [[self.Ajax]]
         for team in self.teams:
             for index, plaats in enumerate(uitkomst):
                 if team.punten > plaats[0].punten:
+                    # als het aantal punten meer is dan het andere team zet het eerste team hier dan voor.
                     uitkomst = uitkomst[0:index - 1] + [[team]] + uitkomst[index - 1:]
                     break
                 elif team.punten == plaats[0].punten:
-                    # alleen voor Ajax en check tegen duplicates.
+                    # Als het team even veel punten heeft als het andere team.
+                    # Voeg het eerste team dan toe aan dezelfde positie.
                     if team == plaats[0]:
+                        # alleen voor Ajax en checkt tegen duplicates.
                         break
                     plaats.append(team)
                     break
                 elif uitkomst[-1] == plaats:
+                    # Als de loop bij de laatste locatie is aangekomen (en niet even veel punten heeft als dit team).
+                    # Voeg dan het team toe achter aan de lijst.
                     uitkomst.append([team])
                     break
         return self.getUitkomst(uitkomst)
 
     def getUitkomst(self, uitkomst):
+        """
+        getUitkomst neemt de uitkomst van de competitie en maakt hier een dictionary van met de correcte posities
+        :param uitkomst: de uitkomst van de competie.
+        :return resultaat: een dictionary met de club als key en positie als value.
+        """
         plaats = 1
         resultaat = {}
         for teams in uitkomst:
             if len(teams) != 1:
                 for team in teams:
+                    # Voeg het team toe aan resultaat met team naam als key en plaats als value.
                     resultaat[team.naam] = plaats
                     if self.printStanding:
                         print("In " + str(plaats) + "e plaats: " + team.naam + " met " + str(team.punten) + " punten")
                 plaats += len(teams)
             else:
+                # voeg het team toe aan resultaat met team naam als key en plaats als value.
                 resultaat[teams[0].naam] = plaats
                 if self.printStanding:
                     print(
