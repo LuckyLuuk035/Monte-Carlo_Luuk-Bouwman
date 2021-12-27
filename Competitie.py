@@ -1,4 +1,4 @@
-from Middle_square import MidSquareGen
+from Middle_square_generator import MidSquareGen
 
 from Voetbal_club import VoetbalClub
 from Wedstrijd import Wedstrijd
