@@ -11,14 +11,21 @@ class Wedstrijd:
     def speelWedstrijd(self, seed):
         print(self.thuis.naam, self.uit.naam, self.win, self.gelijk, seed)
         if self.win >= seed:
-            print(self.thuis.naam, "+3 punten")
-            print(self.uit.naam, "0 punten")
+            self.thuis.punten += 3
+            print(self.thuis.naam, "+3 punten. Totaal:", self.thuis.punten)
+            print(self.uit.naam, "0 punten. Totaal:", self.thuis.punten)
+
         elif self.gelijk >= seed:
-            print(self.thuis.naam, self.uit.naam, "beide +1 punten")
+            self.thuis.punten += 1
+            self.uit.punten += 1
+            print(self.thuis.naam, "+1 punt. Totaal:", self.thuis.punten)
+            print(self.uit.naam, "+1 punt. Totaal:", self.uit.punten)
+
 
         elif seed < 1:
-            print(self.thuis.naam, "0 punten")
-            print(self.uit.naam, "+3 punten")
+            self.uit.punten += 3
+            print(self.thuis.naam, "0 punten. Totaal:", self.thuis.punten)
+            print(self.uit.naam, "+3 punten. Totaal:", self.thuis.punten)
         else:
             raise IndexError
         print("")

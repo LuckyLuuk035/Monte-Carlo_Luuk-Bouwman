@@ -12,6 +12,8 @@ class Competitie:
         self.PSV = VoetbalClub("PSV")
         self.FC_Utrecht = VoetbalClub("FC Utrecht")
         self.Willem_II = VoetbalClub("Willem II")
+        self.teams = [self.Ajax, self.Feyenoord, self.PSV, self.FC_Utrecht, self.Willem_II]
+
         self.wedstrijden = self.setupWedstrijden()
 
     def setupWedstrijden(self):
@@ -49,3 +51,34 @@ class Competitie:
         for wedstrijd in self.wedstrijden:
             random = self.rng.next()
             wedstrijd.speelWedstrijd(random)
+        self.berekenUitkomst()
+
+    def berekenUitkomst(self):
+        uitkomst = [[self.Ajax]]
+        for team in self.teams:
+            for index, plaats in enumerate(uitkomst):
+                if team.punten > plaats[0].punten:
+                    uitkomst = uitkomst[0:index-1] + [team] + uitkomst[index-1:]
+                    break
+                elif team.punten == plaats[0].punten:
+                    # alleen voor Ajax en check tegen duplicates.
+                    if team == plaats[0]:
+                        break
+                    plaats.append(team)
+                    break
+                elif uitkomst[-1] == plaats:
+                    uitkomst.append([team])
+                    break
+            self.printUitkomst(uitkomst)
+
+    def printUitkomst(self, uitkomst):
+        plaats = 1
+        for teams in uitkomst:
+            if len(teams) != 1:
+                for team in teams:
+                    print("In " + str(plaats) + "e plaats: " + team.naam + " met " + str(team.punten) + " punten")
+                plaats += len(teams)
+            else:
+                print("In " + str(plaats) + "e plaats: " + teams[0].naam + " met " + str(teams[0].punten) + " punten")
+                plaats += 1
+        print("")
